@@ -1,640 +1,814 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title', 'Lazismu Kota Cirebon')</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Lazismu Kota Cirebon</title>
-  </head>
-  <body>
-    <nav x-data="{ mobileMenuOpen: false }" class="bg-white sticky top-0 z-50 shadow-sm border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                
-                <div class="shrink-0 flex items-center">
-                    <img class="h-12 w-auto" src="https://lazismu.org/wp-content/uploads/2025/04/logo-lazismu.png" alt="Lazismu Logo">
-                </div>
 
-                <div class="hidden lg:flex items-center space-x-8">
-                    <a href="#" class="text-orange-500 font-medium hover:text-orange-600 transition">Tentang</a>
-                    <a href="#program" class="text-gray-600 font-medium hover:text-orange-500 transition">Program</a>
-                    <a href="#news" class="text-gray-600 font-medium hover:text-orange-500 transition">Berita</a>
-                    <a href="#mitra" class="text-gray-600 font-medium hover:text-orange-500 transition">Mitra</a>
-                    <a href="#artikel" class="text-gray-600 font-medium hover:text-orange-500 transition">Artikel</a>
-                    
-                    <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button class="flex items-center text-gray-600 font-medium group-hover:text-orange-500 transition focus:outline-none">
-                            <span>Publikasi</span>
-                            <svg class="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        
-                        <div x-show="open" 
-                            x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="opacity-0 translate-y-1"
-                            x-transition:enter-end="opacity-100 translate-y-0"
-                            class="absolute left-0 mt-0 w-56 bg-white shadow-xl rounded-b-lg border-orange-500 py-2 z-50">
-                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500">Buku</a>
-                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 border-t border-gray-50">Laporan Keuangan</a>
-                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 border-t border-gray-50">Laporan Tahunan</a>
-                        </div>
-                    </div>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-                    <a href="#" class="text-gray-600 font-medium hover:text-orange-500 transition">Ramadhan</a>
-                </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-                <div class="flex items-center space-x-4">
-                    <a href="#" class="hidden md:block bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-md font-bold shadow-md transition-all transform active:scale-95">
-                        Donasi Sekarang
-                    </a>
-
-                    <button class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
-
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100">
-                        <svg x-show="!mobileMenuOpen" class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <svg x-show="mobileMenuOpen" class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div x-show="mobileMenuOpen" 
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 -translate-y-4"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            class="lg:hidden bg-white border-t border-gray-100 shadow-inner">
-            <div class="px-4 pt-2 pb-6 space-y-1">
-                <a href="#" class="block px-3 py-4 text-base font-semibold text-orange-500 bg-orange-50 rounded-lg">Tentang</a>
-                <a href="#" class="block px-3 py-4 text-base font-medium text-gray-600 hover:bg-gray-50">Program</a>
-                <a href="#" class="block px-3 py-4 text-base font-medium text-gray-600 hover:bg-gray-50">Berita</a>
-                <a href="#" class="block px-3 py-4 text-base font-medium text-gray-600 hover:bg-gray-50">Publikasi</a>
-                <div class="pt-4">
-                    <a href="#" class="block w-full text-center bg-orange-500 text-white py-4 rounded-xl font-bold shadow-lg">Donasi Sekarang</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <section x-data="{ 
-        activeSlide: 1, 
-        slides: [1, 2, 3], 
-        loop() { 
-            setInterval(() => { this.activeSlide = this.activeSlide === this.slides.length ? 1 : this.activeSlide + 1 }, 5000) 
-        } 
-    }" x-init="loop()" class="relative bg-white overflow-hidden px-5">
+    <style>
+        /* Mencegah Alpine.js berkedip saat loading */
+        [x-cloak] { display: none !important; }
         
-        <div class="relative min-h-150 md:min-h-150 flex items-center">
-            
-            <div x-show="activeSlide === 1" 
-                x-transition:enter="transition ease-out duration-1000" 
-                x-transition:enter-start="opacity-0 transform translate-x-12" 
-                x-transition:enter-end="opacity-100 transform translate-x-0"
-                class="max-w-7xl mx-auto px-4 w-full flex flex-col md:flex-row items-center">
-                
-                <div class="w-full md:w-1/2 z-10 text-center md:text-left pt-10 md:pt-0">
-                    <h1 class="text-5xl md:text-7xl font-black text-orange-950 leading-tight">
-                        Zakat <br> <span class="text-orange-500">Penghasilan</span>
-                    </h1>
-                    
-                    <div class="mt-4 flex flex-wrap justify-center md:justify-start items-center gap-4 text-lg font-bold text-gray-700">
-                        <span>Nishab <b class="text-orange-600 text-xl ml-1">85 gr emas</b></span>
-                        <span class="hidden md:block border-l-2 border-gray-300 h-6"></span>
-                        <span>Besaran Zakat <b class="text-orange-600 text-xl ml-1">2,5%</b></span>
-                    </div>
-                    
-                    <div class="mt-6 p-5 border-2 border-orange-100 rounded-3xl bg-orange-50/30 inline-block text-left">
-                        <p class="text-gray-500 italic text-xs mb-2">Dua cara menghitung zakat penghasilan</p>
-                        <ol class="list-decimal list-inside text-gray-800 font-bold space-y-1 text-sm md:text-base">
-                            <li>Penghasilan keseluruhan x 2,5%</li>
-                            <li>(Penghasilan keseluruhan - pengeluaran pokok) x 2,5%</li>
-                        </ol>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .slider-animate { 
+        transition: transform 700ms cubic-bezier(0.65, 0, 0.35, 1) !important; 
+        }
+        .slider-no-animate { 
+            transition: none !important; 
+        }
+    </style>
+
+    @stack('styles')
+</head>
+<body class="antialiase bg-white text-slate-900">
+
+    <navbar x-data="{ mobileMenuOpen: false, atTop: true }" 
+                @scroll.window="atTop = (window.pageYOffset > 50 ? false : true)"
+                class="block">
+
+        <nav :class="atTop ? 'bg-white' : 'bg-white/80 backdrop-blur-xl shadow-xs'"
+             class="sticky top-0 z-100 border-b border-slate-100 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex h-20 items-center justify-between">
+                    <div class="shrink-0">
+                        <img class="h-10 md:h-12 w-auto" src="https://lazismu.org/wp-content/uploads/2025/04/logo-lazismu.png" alt="Logo">
                     </div>
 
-                    <div class="mt-10">
-                        <button class="group bg-orange-500 hover:bg-orange-600 text-white text-xl font-black px-10 py-4 rounded-full shadow-2xl transition-all transform hover:scale-105 flex items-center mx-auto md:mx-0">
-                            Zakat Sekarang!
-                            <svg class="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                    <div class="hidden lg:flex items-center gap-10">
+                        <a href="#" class="text-[13px] font-black text-slate-600 hover:text-orange-500 tracking-widest transition uppercase">Beranda</a>
+                        <a href="#about" class="text-[13px] font-black text-slate-600 hover:text-orange-500 tracking-widest transition uppercase">Tentang</a>
+                        <a href="#program" class="text-[13px] font-black text-slate-600 hover:text-orange-500 tracking-widest transition uppercase">Program</a>
+                        <a href="#info" class="text-[13px] font-black text-slate-600 hover:text-orange-500 tracking-widest transition uppercase">Info</a>
+                        <a href="#mitra" class="text-[13px] font-black text-slate-600 hover:text-orange-500 tracking-widest transition uppercase">Mitra</a>
+                        <a href="#fitur" class="text-[13px] font-black text-slate-600 hover:text-orange-500 tracking-widest transition uppercase">Fitur</a>
+                        <a href="#article" class="text-[13px] font-black text-slate-600 hover:text-orange-500 tracking-widest transition uppercase">Artikel</a>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <a href="#" class="hidden lg:inline-flex bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl font-black text-[13px] uppercase shadow-xl shadow-orange-100 transition active:scale-95">
+                            Donasi Sekarang
+                        </a>
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-xl hover:bg-slate-50 transition">
+                            <svg x-show="!mobileMenuOpen" class="h-7 w-7 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                            <svg x-show="mobileMenuOpen" x-cloak class="h-7 w-7 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
                     </div>
                 </div>
-
-                <div class="w-full md:w-1/2 mt-12 md:mt-0 relative">
-                    <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19133834/Web-Banner-Fidyah-1447H-2048x730.webp" alt="Tim Lazismu" class="w-full h-auto object-contain drop-shadow-2xl">
-                    <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-orange-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -z-10"></div>
-                </div>
             </div>
 
-            <template x-if="activeSlide === 2">
-                <div class="max-w-7xl mx-auto px-4 w-full text-center">
-                    <h2 class="text-5xl font-bold text-orange-500">Program Kemanusiaan</h2>
-                    <p class="mt-4 text-gray-600 text-xl">Membantu sesama dengan aksi nyata di lapangan.</p>
-                </div>
-            </template>
-
-            <template x-if="activeSlide === 3">
-                <div class="max-w-7xl mx-auto px-4 w-full text-center">
-                    <h2 class="text-5xl font-bold text-orange-500">Program Kemanusiaan</h2>
-                    <p class="mt-4 text-gray-600 text-xl">Membantu sesama dengan aksi nyata di lapangan.</p>
-                </div>
-            </template>
-        </div>
-
-        <button @click="activeSlide = activeSlide === 1 ? slides.length : activeSlide - 1" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/5 hover:bg-orange-500 hover:text-white transition group">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-        </button>
-        <button @click="activeSlide = activeSlide === slides.length ? 1 : activeSlide + 1" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/5 hover:bg-orange-500 hover:text-white transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-        </button>
-    </section>
-
-    <section class="py-16 px-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">
-                    Masih Bingung Untuk Berzakat?
-                </h2>
-                <p class="mt-3 text-gray-500 text-lg">
-                    Untuk membantu kamu, maka terlebih dahulu klik tombol dibawah ini
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <div class="group p-8 bg-gray-50 rounded-2xl border border-transparent hover:border-orange-200 hover:bg-orange-50/50 transition-all duration-300">
-                    <div class="mb-6">
-                        <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-orange-600 mb-3">Konsultasi</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">
-                        Sampaikan pertanyaan kamu kepada tim Layanan kami
-                    </p>
-                    <a href="#" class="inline-flex items-center font-bold text-orange-500 hover:text-orange-700">
-                        Selengkapnya 
-                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                    </a>
-                </div>
-
-                <div class="group p-8 bg-gray-50 rounded-2xl border border-transparent hover:border-orange-200 hover:bg-orange-50/50 transition-all duration-300">
-                    <div class="mb-6">
-                        <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-orange-600 mb-3">Kalkulator Zakat</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">
-                        Hitung dan tunaikan zakat kamu sekarang
-                    </p>
-                    <a href="#" class="inline-flex items-center font-bold text-orange-500 hover:text-orange-700">
-                        Selengkapnya 
-                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                    </a>
-                </div>
-
-                <div class="group p-8 bg-gray-50 rounded-2xl border border-transparent hover:border-orange-200 hover:bg-orange-50/50 transition-all duration-300">
-                    <div class="mb-6">
-                        <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-orange-600 mb-3">Laman Donasi</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">
-                        Beragam pilihan donasi zakat, infak dan sedekah yang menarik
-                    </p>
-                    <a href="#" class="inline-flex items-center font-bold text-orange-500 hover:text-orange-700">
-                        Selengkapnya 
-                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                    </a>
+            <div x-show="mobileMenuOpen" 
+                 x-cloak 
+                 x-transition:enter="transition duration-200" 
+                 x-transition:enter-start="opacity-0 -translate-y-4" 
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 class="lg:hidden bg-white border-t border-slate-100 p-6 space-y-4 shadow-2xl">
+                <a href="#hero" @click="mobileMenuOpen = false" class="block text-13 font-black text-slate-800 border-b border-slate-50 hover:text-orange-500 transition pb-4 uppercase tracking-tighter">Beranda</a>
+                <a href="#about" @click="mobileMenuOpen = false" class="block text-13 font-black text-slate-800 border-b border-slate-50 hover:text-orange-500 transition pb-4 uppercase tracking-tighter">Tentang</a>
+                <a href="#program" @click="mobileMenuOpen = false" class="block text-13 font-black text-slate-800 border-b border-slate-50 hover:text-orange-500 transition pb-4 uppercase tracking-tighter">Program</a>
+                <a href="#info" @click="mobileMenuOpen = false" class="block text-13 font-black text-slate-800 border-b border-slate-50 pb-4 hover:text-orange-500 transition uppercase tracking-tighter">Info</a>
+                <a href="#mitra" @click="mobileMenuOpen = false" class="block text-13 font-black text-slate-800 border-b border-slate-50 pb-4 hover:text-orange-500 transition uppercase tracking-tighter">Mitra</a>
+                <a href="#fitur" @click="mobileMenuOpen = false" class="block text-13 font-black text-slate-800 border-b border-slate-50 pb-4 hover:text-orange-500 transition uppercase tracking-tighter">Fitur</a>
+                <a href="#article" @click="mobileMenuOpen = false" class="block text-13 font-black text-slate-800 border-b border-slate-50 pb-4 hover:text-orange-500 transition uppercase tracking-tighter">Artikel</a>
+                <div class="pt-6">
+                    <a href="#" class="block w-full bg-orange-500 hover:bg-orange-600 text-white py-5 rounded-2xl text-center font-black uppercase transition tracking-widest shadow-lg">Donasi Sekarang</a>
                 </div>
             </div>
+        </nav>
+    </navbar>
 
-            <div class="mt-16 text-center">
-                <a href="#" class="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-orange-200 transition-all transform hover:-translate-y-1">
-                    Kunjungi Pusat Layanan
-                    <svg class="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section id="program" class="py-25 px-20 bg-white" x-data="{ 
-        activeSet: 1,
-        totalSets: 2,
-        autoPlay() {
-            setInterval(() => {
-                this.activeSet = this.activeSet === this.totalSets ? 1 : this.activeSet + 1;
-            }, 6000);
-        }
-    }" x-init="autoPlay()">
-        <div class="max-w-5xl mx-auto px-4 relative">
+    <hero x-data="{ 
+            active: 1, 
+            total: 3, 
+            autoplayInterval: null,
+            isAnimating: false,
+            useAnimation: true,
+            resumeTimer: null,
             
-            <div class="text-center mb-8">
-                <div class="flex justify-center mb-2">
-                    <img src="https://lazismu.org/images/logo-icon.png" alt="Icon" class="h-8 w-auto">
-                </div>
-                <h2 class="text-2xl md:text-3xl font-black text-gray-800 uppercase tracking-tight">
-                    Pilar Program Lazismu
-                </h2>
-                <p class="mt-2 text-gray-500 text-sm md:text-base">
-                    Dukung program-program kemanusiaan Lazismu
-                </p>
-            </div>
+            // Fungsi menyalakan autoplay
+            startAutoplay() {
+                this.stopAutoplay();
+                this.autoplayInterval = setInterval(() => {
+                    this.next();
+                }, 5000);
+            },
 
-            <div class="relative py-10 px-10">
+            // Fungsi mematikan autoplay
+            stopAutoplay() {
+                clearInterval(this.autoplayInterval);
+            },
+
+            next() {
+                if (this.isAnimating) return;
+                this.isAnimating = true;
+                this.useAnimation = true;
+                this.active++;
                 
-                <div class="overflow-hidden">
-                    <div class="flex transition-transform duration-700 ease-in-out gap-4"
-                        :style="'transform: translateX(-' + (activeSet - 1) * 100 + '%)'">
-                        
-                        <div class="min-w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div class="bg-orange-400 rounded-xl flex flex-col items-center justify-center p-4 h-40 transition transform hover:scale-105 shadow-md">
-                                <div class="h-16 w-16 mb-2 bg-white/20 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                                </div>
-                                <h3 class="text-white text-xs md:text-sm font-black text-center leading-tight">SOSIAL DAKWAH</h3>
-                            </div>
+                if (this.active > this.total) {
+                    setTimeout(() => {
+                        this.useAnimation = false; 
+                        this.active = 1;
+                        this.isAnimating = false;
+                    }, 700);
+                } else {
+                    setTimeout(() => { this.isAnimating = false; }, 700);
+                }
+            },
 
-                            <div class="bg-lime-500 rounded-xl flex flex-col items-center justify-center p-4 h-40 transition transform hover:scale-105 shadow-md">
-                                <div class="h-16 w-16 mb-2 bg-white/20 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                                </div>
-                                <h3 class="text-white text-xs md:text-sm font-black text-center">KEMANUSIAAN</h3>
-                            </div>
-
-                            <div class="bg-lime-400 rounded-xl flex flex-col items-center justify-center p-4 h-40 transition transform hover:scale-105 shadow-md">
-                                <div class="h-16 w-16 mb-2 bg-white/20 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-                                </div>
-                                <h3 class="text-white text-xs md:text-sm font-black text-center">LINGKUNGAN</h3>
-                            </div>
-
-                            <div class="bg-orange-500 rounded-xl flex flex-col items-center justify-center p-4 h-40 transition transform hover:scale-105 shadow-md">
-                                <div class="h-16 w-16 mb-2 bg-white/20 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
-                                <h3 class="text-white text-xs md:text-sm font-black text-center">EKONOMI</h3>
-                            </div>
-                        </div>
-
-                        <div class="min-w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div class="bg-red-500 rounded-xl h-40 flex items-center justify-center shadow-md">
-                                <h3 class="text-white font-black">KESEHATAN</h3>
-                            </div>
-                            <div class="bg-blue-500 rounded-xl h-40 flex items-center justify-center shadow-md">
-                                <h3 class="text-white font-black">PENDIDIKAN</h3>
-                            </div>
-                            </div>
-
-                    </div>
-                </div>
-
-                <button @click="activeSet = activeSet === 1 ? totalSets : activeSet - 1" 
-                        class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full text-gray-400 hover:text-orange-500 transition shadow">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                </button>
-                <button @click="activeSet = activeSet === totalSets ? 1 : activeSet + 1" 
-                        class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full text-gray-400 hover:text-orange-500 transition shadow">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </button>
-            </div>
-
-            <div class="mt-15 text-center">
-                <a href="#" class="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-orange-200 transition-all transform hover:-translate-y-1">
-                    Lihat Semua Pilar
-                    <svg class="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section id="news" class="py-25 px-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-            
-            <div class="text-center mb-12">
-                <div class="flex justify-center mb-4">
-                    <img src="https://lazismu.org/images/logo-icon.png" alt="Icon" class="h-10 w-auto">
-                </div>
-                <h2 class="text-3xl md:text-4xl font-black text-gray-800 tracking-tight">
-                    Info Terkini Lazismu
-                </h2>
-                <p class="mt-3 text-gray-500 text-lg">
-                    Berita terkini kegiatan Lazismu
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            prev() {
+                if (this.isAnimating) return;
+                this.isAnimating = true;
                 
-                <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col">
-                    <div class="relative overflow-hidden aspect-vidio">
-                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23112002/Lazismu-Buton-Seminar-Kepedulian-Sosial.jpg" alt="Berita 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
-                    </div>
-                    <div class="p-6 grow">
-                        <h3 class="text-xl font-bold text-gray-800 leading-snug group-hover:text-orange-500 transition-colors duration-300">
-                            Hari Pertama Berpuasa, Lazismu Banyumas Salurkan 150 Kado Ramadan untuk...
-                        </h3>
-                    </div>
-                </article>
+                if (this.active === 1) {
+                    this.useAnimation = false; 
+                    this.active = this.total + 1;
+                    setTimeout(() => {
+                        this.useAnimation = true; 
+                        this.active = this.total;
+                        setTimeout(() => { this.isAnimating = false; }, 700);
+                    }, 30);
+                } else {
+                    this.useAnimation = true;
+                    this.active--;
+                    setTimeout(() => { this.isAnimating = false; }, 700);
+                }
+            },
 
-                <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col">
-                    <div class="relative overflow-hidden aspect-vidio">
-                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23104057/Tebar-Takjil-Pulang-Pisau-ok.jpg" alt="Berita 2" class="w-full h-full object-cover group-hover:scale-100 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
-                    </div>
-                    <div class="p-6 grow">
-                        <h3 class="text-xl font-bold text-gray-800 leading-snug group-hover:text-orange-500 transition-colors duration-300">
-                            Adopsi Resep Sukses Lazismu Jawa Tengah, Lazismu Sumsel Targetkan Lompatan Tata...
-                        </h3>
-                    </div>
-                </article>
+            // 1. Tahan (Hold): Berhenti seketika
+            holdPause() {
+                this.stopAutoplay();
+                clearTimeout(this.resumeTimer);
+            },
 
-                <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col">
-                    <div class="relative overflow-hidden aspect-vidio">
-                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19105953/Kado-Ramadan-Lansia-Laz-BanyumasOK.jpg" alt="Berita 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
-                    </div>
-                    <div class="p-6 grow">
-                        <h3 class="text-xl font-bold text-gray-800 leading-snug group-hover:text-orange-500 transition-colors duration-300">
-                            Raih Penghargaan Teraktif 2025, Lazismu Pulang Pisau Dorong Spirit Gerakan Zakat di...
-                        </h3>
-                    </div>
-                </article>
-
-            </div>
-
-            <div class="mt-12 text-center">
-                <a href="#" class="inline-flex items-center text-orange-500 font-bold hover:text-orange-700 transition group">
-                    Berita Lainnya
-                    <svg class="ml-2 w-6 h-6 bg-orange-500 text-white rounded-full p-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section id="mitra" class="py-25 bg-white" x-data="{ 
-        activeSet: 1, 
-        totalSets: 2,
-        autoPlay() {
-            setInterval(() => {
-                this.activeSet = this.activeSet === this.totalSets ? 1 : this.activeSet + 1;
-            }, 4000);
-        } 
-    }" x-init="autoPlay()">
-        <div class="max-w-7xl mx-auto px-4 relative">
-            
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-black text-gray-800 tracking-tight">Mitra Kami</h2>
-                <p>Dalam menyukseskan visi & misi Lazismu, kami selalu berkolaborasi dengan beberapa mitra</p>
-            </div>
-
-            <div class="relative overflow-hidden py-20 px-12">
-                <div class="flex transition-transform duration-1000 ease-in-out gap-8"
-                    :style="'transform: translateX(-' + (activeSet - 1) * 100 + '%)'">
+            // 2. Lepas (Release): Diam 1 detik, baru lanjut autoplay
+            handleRelease() {
+                clearTimeout(this.resumeTimer);
+                this.resumeTimer = setTimeout(() => {
+                    this.startAutoplay();
+                }, 1000); 
+            }
+        }" 
+        x-init="startAutoplay()" 
+        class="relative block w-full bg-white pt-6 pb-10">
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative overflow-hidden rounded-[2rem] md:rounded-[3.5rem] shadow-2xl aspect-[16/9] md:aspect-[21/9] bg-slate-900 group">
+                
+                <div class="flex h-full w-full"
+                    :class="useAnimation ? 'slider-animate' : 'slider-no-animate'"
+                    :style="`transform: translateX(-${(active - 1) * 100}%)`"
+                    @mousedown="holdPause()" 
+                    @mouseup="handleRelease()"
+                    @touchstart="holdPause()" 
+                    @touchend="handleRelease()"
+                    class="cursor-pointer">
                     
-                    <div class="min-w-full grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXdkVgxyOpg-skXBTrhFvR4VqIgDrNUteyiQ&s" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
-                        <img src="https://www.mandiri-investasi.co.id/wp-content/uploads/2019/06/maybank-PNG.png" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
-                        <img src="https://1.bp.blogspot.com/-4qkYYe_sQoI/YBvH0NmYCjI/AAAAAAAAab0/DpiJkew5pPg2kZeoYp3uLqAuoBs7wwldwCLcBGAsYHQ/w400-h400/Download%2BLogo%2BBANK%2BSYARIAH%2BINDONESIA%2BCDR%2Bdan%2BPNG.png" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
-                        <img src="logo-mitra4.png" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
+                    <div class="h-full w-full shrink-0">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19133834/Web-Banner-Fidyah-1447H-2048x730.webp" class="h-full w-full object-cover select-none pointer-events-none">
+                    </div>
+                    
+                    <div class="h-full w-full shrink-0">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23112002/Lazismu-Buton-Seminar-Kepedulian-Sosial.jpg" class="h-full w-full object-cover select-none pointer-events-none">
+                    </div>
+                    
+                    <div class="h-full w-full shrink-0">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23104057/Tebar-Takjil-Pulang-Pisau-ok.jpg" class="h-full w-full object-cover select-none pointer-events-none">
                     </div>
 
-                    <div class="min-w-full grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-                        <img src="logo-mitra5.png" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
-                        <img src="logo-mitra6.png" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
-                        <img src="logo-mitra7.png" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
-                        <img src="logo-mitra8.png" class="h-16 grayscale hover:grayscale-0 transition duration-300" alt="Mitra">
+                    <div class="h-full w-full shrink-0">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19133834/Web-Banner-Fidyah-1447H-2048x730.webp" class="h-full w-full object-cover select-none pointer-events-none">
                     </div>
                 </div>
 
-                <button @click="activeSet = activeSet === 1 ? totalSets : activeSet - 1" class="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                </button>
-                <button @click="activeSet = activeSet === totalSets ? 1 : activeSet + 1" class="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </button>
+                <div class="absolute inset-0 z-20 flex pointer-events-none">
+                    <div @click="prev()" @mousedown="holdPause()" @mouseup="handleRelease()" class="h-full w-1/2 cursor-pointer pointer-events-auto group/btn flex items-center justify-start pl-10">
+                        <div class="bg-white/20 backdrop-blur-md p-3 rounded-full text-white opacity-0 group-hover/btn:opacity-100 transition-opacity">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" /></svg>
+                        </div>
+                    </div>
+                    <div @click="next()" @mousedown="holdPause()" @mouseup="handleRelease()" class="h-full w-1/2 cursor-pointer pointer-events-auto group/btn flex items-center justify-end pr-10">
+                        <div class="bg-white/20 backdrop-blur-md p-3 rounded-full text-white opacity-0 group-hover/btn:opacity-100 transition-opacity">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="flex justify-center mt-8 space-x-2">
-                <template x-for="i in totalSets">
-                    <button @click="activeSet = i" 
-                            :class="activeSet === i ? 'bg-orange-500 w-6' : 'bg-gray-300 w-2'" 
-                            class="h-2 rounded-full transition-all duration-300"></button>
+            <div class="mt-8 flex justify-center gap-3">
+                <template x-for="i in total">
+                    <button @click="active = i; useAnimation = true; holdPause(); handleRelease()" 
+                            :class="(active === i || (active > total && i === 1)) ? 'bg-orange-500 w-10 border border-orange-500' : 'bg-slate-200 w-2.5 hover:bg-slate-300'" 
+                            class="h-2.5 rounded-full transition-all duration-500 cursor-pointer focus:outline-none"></button>
                 </template>
             </div>
+        </div>
+    </hero>
 
-            <div class="mt-20 mb-12 text-center">
-                <a href="#" class="inline-flex items-center text-orange-500 font-bold hover:text-orange-700 transition group">
-                    Selengkapnya
-                    <svg class="ml-2 w-6 h-6 bg-orange-500 text-white rounded-full p-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
+    <about id="about" class="block py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+                
+                <div class="flex-1 relative">
+                    <div class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-slate-50 group">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19105953/Kado-Ramadan-Lansia-Laz-BanyumasOK.jpg" 
+                             class="w-full h-full object-cover aspect-[4/3] group-hover:scale-105 transition duration-700" 
+                             alt="Aktivitas Lazismu">
+                    </div>
+                    
+                    <div class="absolute -bottom-10 -right-4 md:-right-10 z-20 bg-orange-500 text-white p-8 rounded-[2.5rem] shadow-2xl shadow-orange-200 hidden sm:block">
+                        <p class="text-4xl font-black mb-1 leading-none">22+</p>
+                        <p class="text-[10px] font-bold uppercase tracking-widest leading-tight">Tahun<br>Berkhidmat</p>
+                    </div>
+
+                    <div class="absolute -top-10 -left-10 w-64 h-64 bg-orange-50 rounded-full blur-3xl -z-10"></div>
+                </div>
+
+                <div class="flex-1">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-600 text-[10px] font-black rounded-full mb-8 uppercase tracking-widest">
+                        Profil Lembaga
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-950 leading-[1.1] tracking-tighter mb-8 uppercase">
+                        Mengenal Lebih Dekat <br><span class="text-orange-500">Lazismu</span>
+                    </h2>
+                    
+                    <div class="space-y-6 text-slate-600 leading-relaxed text-sm md:text-base">
+                        <p class="text-justify">
+                            <strong>LAZISMU</strong> adalah lembaga amil zakat nasional dengan SK Menag No. 90 Tahun 2022, yang berkhidmat dalam pemberdayaan masyarakat melalui pendayagunaan dana zakat, infaq, wakaf dan dana kedermawanan lainnya secara profesional.
+                        </p>
+                        
+                        <div class="bg-slate-50 p-6 rounded-2xl border-l-4 border-orange-500 italic font-medium text-slate-800 shadow-xs">
+                            "Menjadi Lembaga Amil Zakat Terpercaya, Profesional, dan Transparan."
+                        </div>
+                        
+                        <p class="text-justify text-sm">
+                            Didirikan oleh Pengurus Pusat (PP) Muhammadiyah pada tahun 2002, Lazismu hadir sebagai solusi atas permasalahan kemiskinan yang terus meningkat. Kami berkomitmen untuk menyalurkan amanah Anda secara tepat sasaran demi kemaslahatan umat.
+                        </p>
+                    </div>
+
+                    <div class="mt-12 grid grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xs font-black text-orange-500 uppercase tracking-widest mb-2">Amanah</h4>
+                            <p class="text-[11px] text-slate-500 leading-relaxed">Dikelola dengan standar audit yang ketat dan transparan setiap periodenya.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-black text-orange-500 uppercase tracking-widest mb-2">Terpadu</h4>
+                            <p class="text-[11px] text-slate-500 leading-relaxed">Program yang terintegrasi untuk pemberdayaan masyarakat yang berkelanjutan.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </section>
+    </about>
 
-    <section id="artikel" class="py-25 px-20 mt-10 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
+    <program id="program" class="py-24 bg-white overflow-hidden" 
+        x-data="{ 
+            activePilar: 'pendidikan',
+            pilarData: {
+                pendidikan: {
+                    title: 'Pendidikan', color: 'text-blue-600', lightBg: 'bg-blue-50',
+                    icon: '<path d=\'M12 14l9-5-9-5-9 5 9 5z\'/><path d=\'M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z\'/>',
+                    desc: 'Mewujudkan generasi cerdas dan berakhlak melalui beasiswa serta dukungan sarana pendidikan untuk yatim dan dhuafa.',
+                    programs: [
+                        { name: 'Beasiswa Sang Surya', img: 'https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23112002/Lazismu-Buton-Seminar-Kepedulian-Sosial.jpg', info: 'Bantuan biaya kuliah untuk mahasiswa berprestasi.' },
+                        { name: 'Beasiswa Mentari', img: 'https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19105953/Kado-Ramadan-Lansia-Laz-BanyumasOK.jpg', info: 'Subsidi biaya sekolah tingkat SD hingga SMA.' }
+                    ]
+                },
+                kesehatan: {
+                    title: 'Kesehatan', color: 'text-red-600', lightBg: 'bg-red-50',
+                    icon: '<path d=\'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z\'/>',
+                    desc: 'Layanan medis gratis, bantuan biaya pengobatan, dan penyediaan armada ambulans darurat.',
+                    programs: [
+                        { name: 'Ambulans Gratis', img: 'https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23104057/Tebar-Takjil-Pulang-Pisau-ok.jpg', info: 'Layanan antar jemput pasien 24 jam wilayah Cirebon.' }
+                    ]
+                },
+                ekonomi: {
+                    title: 'Ekonomi', color: 'text-green-600', lightBg: 'bg-green-50',
+                    icon: '<path d=\'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3 1.343 3-3-1.343-3-3-3z\'/><path d=\'M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z\'/>',
+                    desc: 'Pemberdayaan ekonomi melalui modal usaha mikro dan pendampingan kemandirian umat.',
+                    programs: [
+                        { name: 'UMKM Bangkit', img: 'https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19133834/Web-Banner-Fidyah-1447H-2048x730.webp', info: 'Bantuan modal dan gerobak untuk pedagang kecil.' }
+                    ]
+                },
+                dakwah: { 
+                    title: 'Dakwah', color: 'text-purple-600', lightBg: 'bg-purple-50', 
+                    icon: '<path d=\'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15\'/>', 
+                    desc: 'Mensyiarkan nilai Islam inklusif dan bantuan sosial untuk pejuang dakwah di pelosok.', 
+                    programs: [{ name: 'Kado Ramadhan', img: 'https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19105953/Kado-Ramadan-Lansia-Laz-BanyumasOK.jpg', info: 'Paket sembako untuk Marbot dan Guru Ngaji.' }] 
+                },
+                kemanusiaan: { 
+                    title: 'Kemanusiaan', color: 'text-orange-600', lightBg: 'bg-orange-50', 
+                    icon: '<path d=\'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9\'/>', 
+                    desc: 'Respon cepat tanggap bencana, bantuan kemanusiaan darurat, dan aksi sosial global.', 
+                    programs: [{ name: 'Aksi Siaga Bencana', img: 'https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23104057/Tebar-Takjil-Pulang-Pisau-ok.jpg', info: 'Bantuan logistik dan tim medis untuk lokasi bencana.' }] 
+                },
+                lingkungan: { 
+                    title: 'Lingkungan', color: 'text-teal-600', lightBg: 'bg-teal-50', 
+                    icon: '<path d=\'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z\'/>', 
+                    desc: 'Melestarikan lingkungan hidup melalui program sanitasi, air bersih, dan energi terbarukan.', 
+                    programs: [{ name: 'Sumur Bor', img: 'https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19133834/Web-Banner-Fidyah-1447H-2048x730.webp', info: 'Penyediaan akses air bersih di daerah kekeringan.' }] 
+                }
+            }
+        }">
+
+        <style>
+            .no-scrollbar::-webkit-scrollbar { display: none; }
+            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        </style>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="text-center mb-12">
-                <div class="flex justify-center mb-4">
-                    <img src="https://lazismu.org/images/logo-icon.png" alt="Icon" class="h-10 w-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+                <div class="max-w-xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 text-orange-600 text-[9px] font-black rounded-full mb-4 uppercase tracking-widest">
+                        Pilar Strategis
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black text-slate-950 uppercase tracking-tighter">
+                        Program <span class="text-orange-500">Unggulan</span>
+                    </h2>
                 </div>
-                <h2 class="text-4xl font-black text-gray-800 tracking-tight">
-                    Artikel Lazismu
-                </h2>
-                <p class="mt-3 text-gray-500 text-lg">
-                    Berita terkini kegiatan Lazismu
+
+                <div class="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100 overflow-x-auto no-scrollbar gap-1">
+                    <template x-for="(data, key) in pilarData" :key="key">
+                        <button @click="activePilar = key" 
+                                :class="activePilar === key ? 'bg-white shadow-md ' + data.color : 'text-slate-400 hover:text-slate-600'"
+                                class="flex items-center gap-3 px-5 py-2.5 rounded-xl transition-all duration-300 group whitespace-nowrap">
+                            <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" x-html="data.icon"></svg>
+                            <span class="text-[10px] font-black uppercase tracking-widest" x-text="data.title"></span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <div class="relative min-h-[400px]">
+                <template x-for="(data, key) in pilarData" :key="key">
+                    <div x-show="activePilar === key"
+                        x-transition:enter="transition ease-out duration-500"
+                        x-transition:enter-start="opacity-0 translate-y-8"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+                        
+                        <div class="lg:col-span-5 pt-4">
+                            <div :class="data.lightBg + ' ' + data.color" class="inline-flex p-4 rounded-3xl mb-8">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" x-html="data.icon"></svg>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-black text-slate-950 uppercase mb-6 leading-none" x-text="'Pilar ' + data.title"></h3>
+                            <p class="text-slate-500 leading-relaxed text-sm md:text-base mb-10" x-text="data.desc"></p>
+                            
+                            <div class="flex items-center gap-4">
+                                <div class="h-[2px] w-12 bg-slate-200"></div>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Lazismu Cirebon</span>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <template x-for="prog in data.programs" :key="prog.name">
+                                <div class="group bg-slate-50 rounded-[2.5rem] p-6 hover:bg-white hover:shadow-2xl hover:shadow-slate-200 transition-all duration-500 border border-transparent hover:border-slate-100">
+                                    <div class="aspect-video rounded-3xl overflow-hidden mb-6">
+                                        <img :src="prog.img" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 pointer-events-none">
+                                    </div>
+                                    <h4 class="text-sm font-black text-slate-950 uppercase mb-2 leading-none" x-text="prog.name"></h4>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mb-6" x-text="prog.info"></p>
+                                    <button class="w-full py-3 bg-white border border-slate-200 rounded-xl text-[9px] font-black uppercase tracking-widest group-hover:bg-orange-500 group-hover:text-white group-hover:border-transparent transition-all shadow-sm">
+                                        Lihat Detail
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+
+                    </div>
+                </template>
+            </div>
+        </div>
+    </program>
+
+    <info id="info" class="block py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-600 text-[10px] font-black rounded-full mb-6 uppercase tracking-widest">
+                        Warta Lazismu
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-950 leading-tight uppercase tracking-tighter">
+                        Kabar <span class="text-orange-500">Kebaikan</span> <br>Teranyar
+                    </h2>
+                </div>
+                <a href="#" class="group flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-slate-400 hover:text-orange-600 transition-colors">
+                    Lihat Semua Berita 
+                    <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center group-hover:border-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </div>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <article class="group cursor-pointer">
+                    <div class="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden mb-8 shadow-lg">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19105953/Kado-Ramadan-Lansia-Laz-BanyumasOK.jpg" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
+                             alt="Penyaluran Zakat">
+                        <div class="absolute top-6 left-6">
+                            <span class="px-4 py-2 bg-white/90 backdrop-blur-md text-slate-950 text-[9px] font-black uppercase rounded-xl shadow-sm">Penyaluran</span>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <div class="flex items-center gap-3 mb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <time>15 Mei 2026</time>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span>Admin</span>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-950 group-hover:text-orange-600 transition-colors leading-tight uppercase mb-4 tracking-tight">
+                            Lazismu Cirebon Salurkan Paket Sembako Untuk Lansia Dhuafa
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed line-clamp-2">
+                            Program rutin bulanan kembali dilaksanakan dengan menyasar ratusan penerima manfaat di wilayah pelosok Cirebon...
+                        </p>
+                    </div>
+                </article>
+
+                <article class="group cursor-pointer">
+                    <div class="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden mb-8 shadow-lg">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23112002/Lazismu-Buton-Seminar-Kepedulian-Sosial.jpg" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
+                             alt="Pendidikan">
+                        <div class="absolute top-6 left-6">
+                            <span class="px-4 py-2 bg-white/90 backdrop-blur-md text-slate-950 text-[9px] font-black uppercase rounded-xl shadow-sm">Pendidikan</span>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <div class="flex items-center gap-3 mb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <time>12 Mei 2026</time>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span>Admin</span>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-950 group-hover:text-orange-600 transition-colors leading-tight uppercase mb-4 tracking-tight">
+                            Membuka Jendela Dunia Melalui Program Beasiswa Sang Surya
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed line-clamp-2">
+                            Pendaftaran beasiswa tingkat perguruan tinggi resmi dibuka untuk mendukung mahasiswa berprestasi...
+                        </p>
+                    </div>
+                </article>
+
+                <article class="group cursor-pointer">
+                    <div class="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden mb-8 shadow-lg">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23104057/Tebar-Takjil-Pulang-Pisau-ok.jpg" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
+                             alt="Ramadan">
+                        <div class="absolute top-6 left-6">
+                            <span class="px-4 py-2 bg-white/90 backdrop-blur-md text-slate-950 text-[9px] font-black uppercase rounded-xl shadow-sm">Ramadan</span>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <div class="flex items-center gap-3 mb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <time>10 Mei 2026</time>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span>Admin</span>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-950 group-hover:text-orange-600 transition-colors leading-tight uppercase mb-4 tracking-tight">
+                            Semarak Berbagi Takjil di Pusat Kota Cirebon Selama Ramadan
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed line-clamp-2">
+                            Antusiasme masyarakat sangat tinggi dalam mengikuti program berbagi kebaikan di bulan suci kali ini...
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </info>
+
+    <mitra id="mitra" class="block py-16 bg-slate-50 overflow-hidden border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Mitra Strategis & Kolaborasi</p>
+        </div>
+
+        <div class="relative flex overflow-hidden group">
+            <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-50 to-transparent z-20"></div>
+            <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-50 to-transparent z-20"></div>
+            
+            <div class="flex whitespace-nowrap">
+                <div class="flex animate-loop-scroll gap-12 md:gap-24 items-center px-6 md:px-12">
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Bank Syariah Indonesia</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Bank Muamalat</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Muhammadiyah</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Kementerian Agama</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">BAZNAS RI</span>
+                </div>
+                
+                <div class="flex animate-loop-scroll gap-12 md:gap-24 items-center px-6 md:px-12" aria-hidden="true">
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Bank Syariah Indonesia</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Bank Muamalat</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Muhammadiyah</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">Kementerian Agama</span>
+                    <span class="text-xl md:text-2xl font-black text-slate-300 hover:text-orange-500 transition-colors uppercase tracking-tighter">BAZNAS RI</span>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            @keyframes loop-scroll {
+                from { transform: translateX(0); }
+                to { transform: translateX(-100%); }
+            }
+            .animate-loop-scroll {
+                display: flex;
+                animation: loop-scroll 40s linear infinite;
+            }
+            /* Paused saat hover agar user bisa baca */
+            .group:hover .animate-loop-scroll {
+                animation-play-state: paused;
+            }
+        </style>
+    </mitra>
+
+    <fitur id="fitur" class="block py-20 bg-[#FFF9F5] overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-orange-100/40 rounded-full blur-[80px] -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+                <div class="max-w-xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 text-orange-600 text-[8px] font-black rounded-full mb-3 uppercase tracking-widest border border-orange-100">
+                        Pusat Bantuan
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 leading-none uppercase tracking-tighter">
+                        Masih Bingung <span class="text-orange-500">Berzakat?</span>
+                    </h2>
+                </div>
+                <p class="text-slate-500 text-xs md:text-sm font-medium max-w-xs md:text-right italic">
+                    "Mudahkan langkah kebaikan Anda bersama layanan profesional kami."
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                 
-                <article class="flex flex-col bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 group transition-all duration-300 hover:shadow-2xl">
-                    <div class="relative aspect-4/3 overflow-hidden">
-                        <img src="path-ke-gambar-puasa.jpg" alt="Artikel" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    </div>
-
-                    <div class="p-6 grow flex flex-col">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 leading-tight group-hover:text-orange-500 transition-colors">
-                            Hikmah Puasa, Melatih Pribadi Berkarakter
-                        </h3>
-                        <p class="text-gray-500 text-sm leading-relaxed line-clamp-4 mb-6">
-                            Dalam Islam, setiap ibadah yang dikerjakan memiliki tuntunan dan prinsip-prinsip yang harus dipegang oleh kaum muslim dan muslimat...
-                        </p>
-                        
-                        <div class="mt-auto">
-                            <a href="#" class="inline-flex items-center text-xs font-bold text-orange-500 uppercase tracking-widest hover:text-orange-600 transition">
-                                Selengkapnya
-                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                </svg>
-                            </a>
+                <div class="group relative bg-white rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_60px_-15px_rgba(249,115,22,0.2)] border border-slate-100 overflow-hidden cursor-pointer">
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-500 group-hover:text-white group-hover:rotate-[10deg] transition-all duration-500 shadow-sm">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 uppercase mb-3 tracking-tight group-hover:text-orange-600 transition-colors">Konsultasi</h3>
+                        <p class="text-slate-400 text-[11px] leading-relaxed mb-6">Tanyakan hukum zakat langsung kepada tim ahli syariah kami.</p>
+                        <div class="flex items-center gap-2 text-[9px] font-black text-orange-500 uppercase tracking-widest">
+                            <span>Hubungi Kami</span>
+                            <span class="group-hover:translate-x-2 transition-transform duration-300">→</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="px-6 py-4 border-t border-gray-50 bg-gray-50/30 flex items-center text-[11px] text-gray-400 font-medium italic">
-                        <span>11 Februari 2026</span>
-                        <span class="mx-2 text-gray-300">•</span>
-                    </div>
-                </article>
-
-                <article class="flex flex-col bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 group transition-all duration-300 hover:shadow-2xl">
-                    <div class="relative aspect-4/3 overflow-hidden">
-                        <img src="path-ke-gambar-quran.jpg" alt="Artikel" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    </div>
-                    <div class="p-6 grow flex flex-col">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 leading-tight group-hover:text-orange-500 transition-colors">
-                            Puasa Ramadhan, Mengapa Diwajibkan Bagi Seorang Muslim?
-                        </h3>
-                        <p class="text-gray-500 text-sm leading-relaxed line-clamp-4 mb-6">
-                            Puasa merupakan jalan menuju ketakwaan kepada Allah SWT. Hal ini sejalan dengan prinsip-prinsip ibadah salah satunya...
-                        </p>
-                        <div class="mt-auto">
-                            <a href="#" class="inline-flex items-center text-xs font-bold text-orange-500 uppercase tracking-widest">
-                                Selengkapnya
-                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-                            </a>
+                <div class="group relative bg-white rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_60px_-15px_rgba(249,115,22,0.2)] border border-slate-100 overflow-hidden cursor-pointer">
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-500 group-hover:text-white group-hover:scale-110 transition-all duration-500 shadow-sm">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 uppercase mb-3 tracking-tight group-hover:text-orange-600 transition-colors">Kalkulator</h3>
+                        <p class="text-slate-400 text-[11px] leading-relaxed mb-6">Hitung zakat profesi dan harta secara akurat dan otomatis.</p>
+                        <div class="flex items-center gap-2 text-[9px] font-black text-orange-500 uppercase tracking-widest">
+                            <span>Mulai Hitung</span>
+                            <span class="group-hover:translate-x-2 transition-transform duration-300">→</span>
                         </div>
                     </div>
-                    <div class="px-6 py-4 border-t border-gray-50 bg-gray-50/30 flex items-center text-[11px] text-gray-400 font-medium italic">
-                        <span>9 Februari 2026</span>
-                        <span class="mx-2 text-gray-300">•</span>
-                    </div>
-                </article>
+                </div>
 
-                <article class="flex flex-col bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 group transition-all duration-300 hover:shadow-2xl">
-                    <div class="relative aspect-4/3 overflow-hidden">
-                        <img src="path-ke-gambar-kurma.jpg" alt="Artikel" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    </div>
-                    <div class="p-6 grow flex flex-col">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 leading-tight group-hover:text-orange-500 transition-colors">
-                            Makna Puasa sebagai Perisai Bagi Orang yang Beriman
-                        </h3>
-                        <p class="text-gray-500 text-sm leading-relaxed line-clamp-4 mb-6">
-                            Marhaban Ya Ramadhan. Bulan penuh keberkahan yang ditunggu-tunggu itu semakin dekat menyapa kita semua. Ramadhan adalah...
-                        </p>
-                        <div class="mt-auto">
-                            <a href="#" class="inline-flex items-center text-xs font-bold text-orange-500 uppercase tracking-widest">
-                                Selengkapnya
-                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-                            </a>
+                <div class="group relative bg-white rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_60px_-15px_rgba(249,115,22,0.2)] border border-slate-100 overflow-hidden cursor-pointer">
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-500 group-hover:text-white group-hover:translate-y-[-4px] transition-all duration-500 shadow-sm">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 uppercase mb-3 tracking-tight group-hover:text-orange-600 transition-colors">Laman Donasi</h3>
+                        <p class="text-slate-400 text-[11px] leading-relaxed mb-6">Pilih berbagai program kemanusiaan untuk disalurkan.</p>
+                        <div class="flex items-center gap-2 text-[9px] font-black text-orange-500 uppercase tracking-widest">
+                            <span>Donasi Sekarang</span>
+                            <span class="group-hover:translate-x-2 transition-transform duration-300">→</span>
                         </div>
                     </div>
-                    <div class="px-6 py-4 border-t border-gray-50 bg-gray-50/30 flex items-center text-[11px] text-gray-400 font-medium italic">
-                        <span>6 Februari 2026</span>
-                        <span class="mx-2 text-gray-300">•</span>
-                    </div>
-                </article>
-
+                </div>
             </div>
-        </div>
 
-                <div class="mt-16 text-center">
-                <a href="#" class="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-orange-200 transition-all transform hover:-translate-y-1">
-                    Lihat Lainnya
-                    <svg class="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div class="text-center">
+                <button class="group/btn relative inline-flex items-center gap-4 px-10 py-5 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[9px] overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20">
+                    <span class="relative z-10">Kunjungi Pusat Layanan</span>
+                    <svg class="w-4 h-4 relative z-10 group-hover/btn:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
-                </a>
+                    <div class="absolute inset-0 bg-orange-500 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500"></div>
+                </button>
             </div>
-    </section>
 
-    <footer class="bg-white pt-16 px-20 pb-8 border-t border-gray-100 relative overflow-hidden">
-        <div class="absolute bottom-0 left-0 w-64 opacity-20 pointer-events-none px-5">
-            <img src="https://lazismu.org/wp-content/uploads/2025/04/element-footer.png" alt="Decoration" class="w-full">
+        </div>
+    </fitur>
+
+    <article id="article" class="block py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div class="max-w-xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 text-orange-600 text-[9px] font-black rounded-full mb-4 uppercase tracking-widest border border-orange-100">
+                        Warta Terkini
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
+                        Kabar <span class="text-orange-500">Kebaikan</span>
+                    </h2>
+                </div>
+                <button class="px-6 py-3 border-2 border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:border-orange-500 hover:text-orange-500 transition-all duration-300">
+                    Lihat Semua Artikel
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <article class="group cursor-pointer">
+                    <div class="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden mb-8 shadow-sm">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/19105953/Kado-Ramadan-Lansia-Laz-BanyumasOK.jpg" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
+                             alt="Penyaluran Zakat">
+                        <div class="absolute top-6 left-6">
+                            <span class="px-4 py-2 bg-white/90 backdrop-blur-md text-slate-900 text-[9px] font-black uppercase rounded-xl">Pilar Sosial</span>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <div class="flex items-center gap-3 mb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <time>15 Mei 2026</time>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span>Oleh Admin</span>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 group-hover:text-orange-500 transition-colors leading-tight uppercase mb-4 tracking-tight">
+                            Lazismu Cirebon Salurkan Paket Sembako Untuk Lansia Dhuafa
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed line-clamp-2 mb-6">
+                            Program rutin bulanan kembali dilaksanakan dengan menyasar ratusan penerima manfaat di wilayah pelosok Cirebon...
+                        </p>
+                        <div class="w-10 h-1 bg-slate-100 group-hover:w-20 group-hover:bg-orange-500 transition-all duration-500"></div>
+                    </div>
+                </article>
+
+                <article class="group cursor-pointer">
+                    <div class="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden mb-8 shadow-sm">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23112002/Lazismu-Buton-Seminar-Kepedulian-Sosial.jpg" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
+                             alt="Pendidikan">
+                        <div class="absolute top-6 left-6">
+                            <span class="px-4 py-2 bg-white/90 backdrop-blur-md text-slate-900 text-[9px] font-black uppercase rounded-xl">Pilar Pendidikan</span>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <div class="flex items-center gap-3 mb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <time>12 Mei 2026</time>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span>Oleh Admin</span>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 group-hover:text-orange-500 transition-colors leading-tight uppercase mb-4 tracking-tight">
+                            Membuka Jendela Dunia Melalui Program Beasiswa Sang Surya
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed line-clamp-2 mb-6">
+                            Pendaftaran beasiswa tingkat perguruan tinggi resmi dibuka untuk mendukung mahasiswa berprestasi...
+                        </p>
+                        <div class="w-10 h-1 bg-slate-100 group-hover:w-20 group-hover:bg-orange-500 transition-all duration-500"></div>
+                    </div>
+                </article>
+
+                <article class="group cursor-pointer">
+                    <div class="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden mb-8 shadow-sm">
+                        <img src="https://lazismuorg.sgp1.digitaloceanspaces.com/wp-content/uploads/2026/02/23104057/Tebar-Takjil-Pulang-Pisau-ok.jpg" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
+                             alt="Kemanusiaan">
+                        <div class="absolute top-6 left-6">
+                            <span class="px-4 py-2 bg-white/90 backdrop-blur-md text-slate-900 text-[9px] font-black uppercase rounded-xl">Kemanusiaan</span>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <div class="flex items-center gap-3 mb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <time>10 Mei 2026</time>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span>Oleh Admin</span>
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900 group-hover:text-orange-500 transition-colors leading-tight uppercase mb-4 tracking-tight">
+                            Aksi Cepat Tanggap: Lazismu Kirim Bantuan Logistik Bencana
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed line-clamp-2 mb-6">
+                            Tim relawan dikerahkan menuju lokasi terdampak untuk mendistribusikan paket pangan dan obat-obatan...
+                        </p>
+                        <div class="w-10 h-1 bg-slate-100 group-hover:w-20 group-hover:bg-orange-500 transition-all duration-500"></div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </article>
+
+    <footer class="block bg-white pt-28 pb-10 relative overflow-hidden">
+        <div class="absolute bottom-0 left-0 w-64 md:w-[480px] pointer-events-none opacity-90 translate-y-12 -translate-x-12">
+            <img src="https://lazismu.org/images/kelopak-footer.png" alt="decor" class="w-full h-auto">
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24">
                 
-                <div class="space-y-6">
-                    <img src="https://lazismu.org/wp-content/uploads/2025/04/logo-lazismu.png" alt="Lazismu Logo" class="h-16 w-auto">
-                    <p class="text-gray-500 text-sm leading-relaxed text-justify">
-                        LAZISMU adalah lembaga zakat nasional dengan SK Menag No. 90 Tahun 2022, yang berkhidmat dalam pemberdayaan masyarakat melalui pendayagunaan dana zakat, infaq, wakaf dan dana kedermawanan lainnya baik dari perseorangan, lembaga, perusahaan dan instansi lainnya. Lazismu tidak menerima segala bentuk dana yang bersumber dari kejahatan. UU RI No. 8 Tahun 2010 Tentang Pencegahan dan Pemberantasan Tindak Pidana Pencucian Uang.
+                <div class="lg:col-span-5 pr-0 lg:pr-12">
+                    <div class="mb-10">
+                        <img src="https://lazismu.org/wp-content/uploads/2025/04/logo-lazismu.png" alt="Lazismu Logo" class="h-16 w-auto object-contain">
+                    </div>
+                    <p class="text-slate-500 text-[11px] leading-[1.8] text-justify font-medium mb-6 italic">
+                        LAZISMU adalah lembaga zakat nasional dengan SK Menag No. 90 Tahun 2022, yang berkhidmat dalam pemberdayaan masyarakat melalui pendayagunaan dana zakat, infaq, wakaf dan dana kedermawanan lainnya. Lazismu tidak menerima segala bentuk dana yang bersumber dari kejahatan.
                     </p>
                 </div>
 
-                <div class="lg:pl-8">
-                    <h4 class="text-xl font-bold text-gray-800 mb-6">Alamat</h4>
-                    <ul class="space-y-4 text-gray-500 text-sm">
-                        <li class="flex items-start">
-                            <svg class="w-6 h-6 text-orange-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            <span>Jl. Pilang Raya No.09, Sukapura, Kec. Kejaksan, Kota Cirebon, Jawa Barat</span>
+                <div class="lg:col-span-3">
+                    <h4 class="text-slate-900 text-xs font-black uppercase tracking-[0.2em] mb-10 relative inline-block">
+                        Alamat
+                        <span class="absolute -bottom-2 left-0 w-8 h-1 bg-orange-500 rounded-full"></span>
+                    </h4>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4 items-start group">
+                            <div class="w-9 h-9 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-location-dot text-sm"></i>
+                            </div>
+                            <span class="text-slate-500 text-[11px] leading-relaxed pt-1">Jl. Jambru No.5, Kenari, Kec. Senen, Jakarta Pusat 10430</span>
                         </li>
-                        <li class="flex items-center">
-                            <svg class="w-5 h-5 text-orange-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            <a href="mailto:info@lazismu.org" class="hover:text-orange-500 transition"> lazismukotacirebon09@gmail.com</a>
+                        <li class="flex gap-4 items-center group">
+                            <div class="w-9 h-9 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-envelope text-sm"></i>
+                            </div>
+                            <span class="text-slate-500 text-[11px] font-bold">info@lazismu.org</span>
                         </li>
-                        <li class="flex items-center">
-                            <svg class="w-5 h-5 text-orange-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            <span>087-735-513-626</span>
+                        <li class="flex gap-4 items-center group">
+                            <div class="w-9 h-9 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-phone text-sm"></i>
+                            </div>
+                            <span class="text-slate-500 text-[11px] font-bold">0856-1626-222</span>
                         </li>
                     </ul>
                 </div>
 
-                <div class="lg:pl-8">
-                    <h4 class="text-xl font-bold text-gray-800 mb-6">Selengkapnya</h4>
-                    <ul class="space-y-3 text-gray-500 text-sm font-medium">
-                        <li><a href="#" class="hover:text-orange-500 transition">FAQ</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Laman Donasi</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Publikasi</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Ketentuan Layanan</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Kebijakan Privasi</a></li>
+                <div class="lg:col-span-2">
+                    <h4 class="text-slate-900 text-xs font-black uppercase tracking-[0.2em] mb-10 relative inline-block">
+                        Menu
+                        <span class="absolute -bottom-2 left-0 w-8 h-1 bg-orange-500 rounded-full"></span>
+                    </h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-slate-400 hover:text-orange-600 text-[10px] font-black uppercase tracking-widest transition-all block">FAQ</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-orange-600 text-[10px] font-black uppercase tracking-widest transition-all block">Laman Donasi</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-orange-600 text-[10px] font-black uppercase tracking-widest transition-all block">Publikasi</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-orange-600 text-[10px] font-black uppercase tracking-widest transition-all block">Kebijakan Privasi</a></li>
                     </ul>
                 </div>
 
-                <div>
-                    <h4 class="text-xl font-bold text-gray-800 mb-6">Media Sosial</h4>
-                    <div class="grid grid-cols-3 gap-3">
-                        <a href="#" class="w-12 h-12 bg-[#3f3f3f] text-white flex items-center justify-center rounded-md hover:bg-orange-500 transition">
-                            <i class="bi bi-instagram"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-[#08529b] text-white flex items-center justify-center rounded-md hover:bg-orange-500 transition">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-[#333333] text-white flex items-center justify-center rounded-md hover:bg-orange-500 transition">
-                            <i class="bi bi-twitter-x"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-[#ff0000] text-white flex items-center justify-center rounded-md hover:bg-orange-600 transition">
-                            <i class="bi bi-youtube"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-[#000000] text-white flex items-center justify-center rounded-md hover:bg-orange-500 transition">
-                            <i class="bi bi-tiktok"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-[#0077b5] text-white flex items-center justify-center rounded-md hover:bg-orange-500 transition">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
+                <div class="lg:col-span-2">
+                    <h4 class="text-slate-900 text-xs font-black uppercase tracking-[0.2em] mb-10 relative inline-block">
+                        Media Sosial
+                        <span class="absolute -bottom-2 left-0 w-8 h-1 bg-orange-500 rounded-full"></span>
+                    </h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <a href="#" class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-[#E1306C] hover:text-white transition-all duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-[#000000] hover:text-white transition-all duration-300"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-[#FF0000] hover:text-white transition-all duration-300"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-all duration-300"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-[#0077B5] hover:text-white transition-all duration-300"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-20 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-gray-400 text-xs text-center md:text-left">
-                <p>Copyright © <?php echo date('Y'); ?> LAZISMU bagian dari Persekutuan dan Perkumpulan PERSYARIKATAN MUHAMMADIYAH</p>
+            <div class="pt-10 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-300 text-[9px] font-black uppercase tracking-[0.2em]">
+                    © 2026 LAZISMU CIREBON <span class="mx-2 text-slate-200">|</span> MEMBER OF MUHAMMADIYAH
+                </p>
+                <p class="text-slate-300 text-[9px] font-black uppercase tracking-[0.2em]">
+                    Crafted by <span class="text-orange-500 hover:text-slate-900 transition-colors cursor-pointer">Dede Hermawan</span>
+                </p>
             </div>
         </div>
-
-        <a href="https://wa.me/..." class="fixed bottom-6 right-6 z-99 bg-[#25d366] text-white p-3 rounded-full shadow-2xl transform hover:scale-110 transition-all duration-300">
-            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        </a>
     </footer>
-  </body>
+
+    <button 
+        x-data="{ show: false }" 
+        x-on:scroll.window="show = window.pageYOffset > 500"
+        x-show="show"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-10 scale-50"
+        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+        class="fixed bottom-8 right-8 z-50 w-12 h-12 bg-orange-500 text-white rounded-xl shadow-2xl shadow-orange-500/30 flex items-center justify-center hover:bg-slate-900 hover:-translate-y-2 transition-all duration-500 group">
+        <i class="fa-solid fa-chevron-up text-lg group-hover:animate-bounce"></i>
+    </button>
+
+    @stack('scripts')
+</body>
 </html>
